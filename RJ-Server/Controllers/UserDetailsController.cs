@@ -87,7 +87,26 @@ namespace RJ_Server.Controllers
                 ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.Name}");
                 return StatusCode(404, ModelState);
             }
-            return CreatedAtRoute("UpdateUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
+            return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
+        }
+
+
+
+        [HttpDelete()]
+        [Route("{userDetail?}", Name = "DeleteUserDetail")]
+        public IActionResult DeleteUserDetail(string userDetail, [FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
+        {
+            if (!_uRepo.UserDetailsIdExist(userDetail))
+            {
+                return NotFound();
+            }
+            var userDetailsObj = _uRepo.GetUserDetail(userDetail);
+            if (!_uRepo.DeleteUserDetails(userDetailsObj))
+            {
+                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.Name}");
+                return StatusCode(404, ModelState);
+            }
+            return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
         }
 
     }
