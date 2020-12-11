@@ -22,6 +22,11 @@ namespace RJ_Server.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get List Of UserDetails
+        /// </summary>
+        /// <param name="UserDetails"> => Get List Of UserDetails </param>
+        /// <returns></returns>
         [Microsoft.AspNetCore.Mvc.HttpGet]
         public IActionResult GetUserDetails()
         {
@@ -34,6 +39,12 @@ namespace RJ_Server.Controllers
             return Ok(objDto); // لیستی از جنس کلاس =>userDetails => برمیگردونه با این شرط که توی =>dto  وجود داشته باشن=> 
         }
 
+
+        /// <summary>
+        /// Get  UserDetail By Id 
+        /// </summary>
+        /// <param name="userDetail"> => Get UserDetail By Id </param>
+        /// <returns></returns>
         [Microsoft.AspNetCore.Mvc.HttpGet]
         [Route("{userDetail?}", Name = "GetUserDetail")]
         public IActionResult GetUserDetail(string userDetail)
@@ -47,6 +58,12 @@ namespace RJ_Server.Controllers
             return Ok(objDto);
         }
 
+
+        /// <summary>
+        /// CreateUserDetail
+        /// </summary>
+        /// <param name="CreateUserDetail"> => CreateUserDetail </param>
+        /// <returns></returns>
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public IActionResult CreateUserDetail([FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
         {
@@ -73,6 +90,12 @@ namespace RJ_Server.Controllers
         }
 
 
+
+        /// <summary>
+        /// UpdateUserDetail
+        /// </summary>
+        /// <param name="UpdateUserDetail"> => UpdateUserDetail </param>
+        /// <returns></returns>
         [HttpPatch()]
         [Route("{userDetail?}", Name = "UpdateUserDetail")]
         public IActionResult UpdateUserDetail(string userDetail, [FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
@@ -92,6 +115,11 @@ namespace RJ_Server.Controllers
 
 
 
+        /// <summary>
+        /// DeleteUserDetail
+        /// </summary>
+        /// <param name="DeleteUserDetail"> => DeleteUserDetail </param>
+        /// <returns></returns>
         [HttpDelete()]
         [Route("{userDetail?}", Name = "DeleteUserDetail")]
         public IActionResult DeleteUserDetail(string userDetail)

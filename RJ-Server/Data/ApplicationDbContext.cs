@@ -12,6 +12,7 @@ namespace RJ_Server.Data
         {
 
         }
-        public DbSet<RJ_Server.Models.UserDetails> UserDetails { get; set; } 
+        public DbSet<RJ_Server.Models.UserDetails> UserDetails { get; set; }
+        public DbSet<RJ_Server.Models.Act> Acts { get; set; }
     }
 }
