@@ -37,8 +37,8 @@ namespace RJ_Server
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RJ_Server", Version = "v1" });
             });
-            //services.AddAutoMapper(typeof(RJ_Server.UserMapper.UserMappings));
-            //services.AddScoped<IUserDetailsRepository,UserDetailsRepository>();
+           services.AddAutoMapper(typeof(RJ_Server.UserMapper.UserMappings));
+          services.AddScoped<IUserDetailsRepository,UserDetailsRepository>();
                }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
