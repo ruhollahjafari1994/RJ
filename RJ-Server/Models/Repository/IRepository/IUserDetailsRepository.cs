@@ -9,7 +9,7 @@ namespace RJ_Server.Models.Repository.IRepository
     {
         ICollection<UserDetails> GetUserDetails();
 
-        UserDetails GetUserDetail(int userName);
+        UserDetails GetUserDetail(string userName);
         bool UserDetailsNameExist(string name);
         bool UserDetailsIdExist(string id);
         bool CreateUserDetails(UserDetails userDetail);
