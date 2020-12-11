@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,32 +10,47 @@ namespace RJ_Server.Models.Dtos
      
     public class UserDetailsDto
     {
-        public Guid UserId { get; set; } = new Guid();
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid UserId { get; set; }
 
-         public string UserName { get; set; }
+        [Required]
+        public string UserName { get; set; }
 
-         public string UserPassword { get; set; }
+        [Required]
+        public string UserPassword { get; set; }
 
-         public string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-         public string Family { get; set; }
+        [Required]
+        public string Family { get; set; }
 
         public string UserMobile { get; set; }
 
 
         DateTime UserBirthDay { get; set; }
 
-         public string UserEmail { get; set; }
-         public bool UserSex { get; set; }
+        [Required]
+        public string UserEmail { get; set; }
+        [Required]
+        public bool UserSex { get; set; }
 
-         public bool UserActive { get; set; }
+        [Required]
+        public bool UserActive { get; set; }
 
-         public bool IsAdmin { get; set; }
+        [Required]
+        public bool IsAdmin { get; set; }
 
-         DateTime UserCreated { get; set; } 
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        DateTime UserCreated { get; set; }
+
+        [Required]
+        string UserIp { get; set; }
 
 
-        DateTime UserLogin { get; set; } 
+        DateTime UserLogin { get; set; }
         public string UserCity { get; set; }
 
         public string UserCounty { get; set; }

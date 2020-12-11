@@ -55,7 +55,7 @@ namespace RJ_Server.Controllers
                 return BadRequest(ModelState);
             }
             var userDetailsObj = _mapper.Map<RJ_Server.Models.UserDetails>(userDetailsDto);
-            if (_uRepo.UserDetailsNameExist(userDetailsObj.Name))
+            if (_uRepo.UserDetailsNameExist(userDetailsObj.UserName))
             {
                 ModelState.AddModelError("", "The User Exist !");
                 return StatusCode(404, ModelState);
@@ -66,7 +66,7 @@ namespace RJ_Server.Controllers
             }
             if (!_uRepo.CreateUserDetails(userDetailsObj))
             {
-                ModelState.AddModelError("", $"Somthing Went Wrong When Saving Record {userDetailsObj.Name}");
+                ModelState.AddModelError("", $"Somthing Went Wrong When Saving Record {userDetailsObj.UserName}");
                 return StatusCode(500, ModelState);
             }
             return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
@@ -84,7 +84,7 @@ namespace RJ_Server.Controllers
             var userDetailsObj = _mapper.Map<RJ_Server.Models.UserDetails>(userDetailsDto);
             if (!_uRepo.UpadteUserDetails(userDetailsObj))
             {
-                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.Name}");
+                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.UserName}");
                 return StatusCode(404, ModelState);
             }
             return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
@@ -94,7 +94,7 @@ namespace RJ_Server.Controllers
 
         [HttpDelete()]
         [Route("{userDetail?}", Name = "DeleteUserDetail")]
-        public IActionResult DeleteUserDetail(string userDetail, [FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
+        public IActionResult DeleteUserDetail(string userDetail)
         {
             if (!_uRepo.UserDetailsIdExist(userDetail))
             {
@@ -103,7 +103,7 @@ namespace RJ_Server.Controllers
             var userDetailsObj = _uRepo.GetUserDetail(userDetail);
             if (!_uRepo.DeleteUserDetails(userDetailsObj))
             {
-                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.Name}");
+                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.UserName}");
                 return StatusCode(404, ModelState);
             }
             return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
