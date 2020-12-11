@@ -16,7 +16,7 @@ namespace RJ_Server.Controllers
         private IUserDetailsRepository _uRepo;
         private readonly IMapper _mapper;
 
-        public UserDetailsController(IUserDetailsRepository uRepo , IMapper mapper)
+        public UserDetailsController(IUserDetailsRepository uRepo, IMapper mapper)
         {
             _uRepo = uRepo;
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace RJ_Server.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Route("{userDetail?}")]
+        [Route("{userDetail?}", Name = "GetUserDetail")]
         public IActionResult GetUserDetail(string userDetail)
         {
             var obj = _uRepo.GetUserDetail(userDetail);
@@ -50,12 +50,12 @@ namespace RJ_Server.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public IActionResult CreateUserDetail([FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
         {
-            if (userDetailsDto==null)
+            if (userDetailsDto == null)
             {
                 return BadRequest(ModelState);
             }
             var userDetailsObj = _mapper.Map<RJ_Server.Models.UserDetails>(userDetailsDto);
-             if (_uRepo.UserDetailsNameExist(userDetailsObj.Name))
+            if (_uRepo.UserDetailsNameExist(userDetailsObj.Name))
             {
                 ModelState.AddModelError("", "The User Exist !");
                 return StatusCode(404, ModelState);
@@ -69,7 +69,26 @@ namespace RJ_Server.Controllers
                 ModelState.AddModelError("", $"Somthing Went Wrong When Saving Record {userDetailsObj.Name}");
                 return StatusCode(500, ModelState);
             }
-            return Ok();
+            return CreatedAtRoute("GetUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
         }
+
+
+        [HttpPatch()]
+        [Route("{userDetail?}", Name = "UpdateUserDetail")]
+        public IActionResult UpdateUserDetail(string userDetail, [FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
+        {
+            if (userDetailsDto==null || userDetail!= userDetailsDto.UserName)
+            {
+                return BadRequest(ModelState);
+            }
+            var userDetailsObj = _mapper.Map<RJ_Server.Models.UserDetails>(userDetailsDto);
+            if (!_uRepo.UpadteUserDetails(userDetailsObj))
+            {
+                ModelState.AddModelError("", $"Somthing Went Wrong When Updating {userDetailsObj.Name}");
+                return StatusCode(404, ModelState);
+            }
+            return CreatedAtRoute("UpdateUserDetail", new { userDetail = userDetailsObj.UserName }, userDetailsObj);
+        }
+
     }
 }
