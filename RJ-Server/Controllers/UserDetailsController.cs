@@ -46,5 +46,30 @@ namespace RJ_Server.Controllers
             var objDto = _mapper.Map<RJ_Server.Models.Dtos.UserDetailsDto>(obj);
             return Ok(objDto);
         }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public IActionResult CreateUserDetail([FromBody] RJ_Server.Models.Dtos.UserDetailsDto userDetailsDto)
+        {
+            if (userDetailsDto==null)
+            {
+                return BadRequest(ModelState);
+            }
+            var userDetailsObj = _mapper.Map<RJ_Server.Models.UserDetails>(userDetailsDto);
+             if (_uRepo.UserDetailsNameExist(userDetailsObj.Name))
+            {
+                ModelState.AddModelError("", "The User Exist !");
+                return StatusCode(404, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!_uRepo.CreateUserDetails(userDetailsObj))
+            {
+                ModelState.AddModelError("", $"Somthing Went Wrong When Saving Record {userDetailsObj.Name}");
+                return StatusCode(500, ModelState);
+            }
+            return Ok();
+        }
     }
 }
